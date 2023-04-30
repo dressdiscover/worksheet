@@ -1,0 +1,41 @@
+name: Build and deploy
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
+            --airtable-access_token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
+            --paradicms-rdf-file-path /worksheet/.paradicms/data/costume_core_ontology.trig
+        container:
+          image: ghcr.io/paradicms/paradicms:latest
+          credentials:
+            username: ${{ github.actor }}
+            password: ${{ secrets.github_token }}
+          volumes:
+            .:/worksheet
+      - uses: paradicms/directory-etl-action@v1-beta
+      - run: find .paradicms
+      - uses: actions/configure-pages@v3
+        id: configure_pages
+      - uses: paradicms/ssg-action@v1-beta
+        env:
+          NEXT_BASE_PATH: ${{ steps.configure_pages.outputs.base_path }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
