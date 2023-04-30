@@ -7,19 +7,19 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/paradicms/paradicms:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
+      volumes:
+        - .:/projects
     steps:
       - uses: actions/checkout@v3
       - run: |
           python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
             --airtable-access_token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
-            --paradicms-rdf-file-path /worksheet/.paradicms/data/costume_core_ontology.trig
-        container:
-          image: ghcr.io/paradicms/paradicms:latest
-          credentials:
-            username: ${{ github.actor }}
-            password: ${{ secrets.github_token }}
-          volumes:
-            .:/worksheet
+            --paradicms-rdf-file-path /projects/worksheet/.paradicms/data/costume_core_ontology.trig
       - uses: paradicms/directory-etl-action@v1-beta
       - run: find .paradicms
       - uses: actions/configure-pages@v3
