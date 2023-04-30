@@ -13,16 +13,19 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.github_token }}
       volumes:
-        - ${{ github.workspace }}:/worksheet
+        - ${{ github.workspace }}:${{ github.workspace }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: worksheet
       - run: |
           python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
             --airtable-access-token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
+            --cache-dir-path ${{ github.workspace}}/.paradicms/cache \
             --force-extract \
-            --paradicms-rdf-file-path /worksheet/.paradicms/data/costume_core_ontology.trig
+            --paradicms-rdf-file-path ${{ github.workspace}}/.paradicms/data/costume_core_ontology.trig
       - uses: paradicms/directory-etl-action@v1-beta
-      - run: find /worksheet/.paradicms
+      - run: find ${{ github.workspace}}/.paradicms
       - uses: actions/configure-pages@v3
         id: configure_pages
       - uses: paradicms/ssg-action@v1-beta
