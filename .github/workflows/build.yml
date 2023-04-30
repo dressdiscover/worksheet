@@ -22,20 +22,20 @@ jobs:
             --paradicms-rdf-file-path /worksheet/.paradicms/data/costume_core_ontology.trig
       - uses: paradicms/directory-etl-action@v1-beta
       - run: find /worksheet/.paradicms
-#      - uses: actions/configure-pages@v3
-#        id: configure_pages
-#      - uses: paradicms/ssg-action@v1-beta
-#        env:
-#          NEXT_BASE_PATH: ${{ steps.configure_pages.outputs.base_path }}
-#      - name: Upload artifact
-#        uses: actions/upload-pages-artifact@v1
-#  deploy:
-#    environment:
-#      name: github-pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v1
+      - uses: actions/configure-pages@v3
+        id: configure_pages
+      - uses: paradicms/ssg-action@v1-beta
+        env:
+          NEXT_BASE_PATH: ${{ steps.configure_pages.outputs.base_path }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
