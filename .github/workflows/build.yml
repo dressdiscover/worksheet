@@ -19,6 +19,7 @@ jobs:
       - run: |
           python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
             --airtable-access-token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
+            --force-extract \
             --paradicms-rdf-file-path /worksheet/.paradicms/data/costume_core_ontology.trig
       - uses: paradicms/directory-etl-action@v1-beta
       - run: find /worksheet/.paradicms

@@ -24,5 +24,4 @@ poetry run $PROJECTS_DIR_PATH/directory-etl-action/action.py \
 poetry run $PROJECTS_DIR_PATH/ssg-action/action.py \
   --cache-directory-path $CACHE_DIR_PATH \
   --data-paths $DATA_DIR_PATH \
-  --dev \
   --pipeline-id app
