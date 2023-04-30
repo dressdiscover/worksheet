@@ -16,8 +16,6 @@ jobs:
         - ${{ github.workspace }}:${{ github.workspace }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: worksheet
       - run: |
           python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
             --airtable-access-token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
