@@ -2,7 +2,7 @@ name: Build and deploy
 on:
   push:
   schedule:
-    - cron: '30 2 * * *'
+    - cron: "30 2 * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -27,7 +27,6 @@ jobs:
             --force-extract \
             --paradicms-rdf-file-path ${{ github.workspace}}/.paradicms/data/costume_core_ontology.trig
       - uses: paradicms/directory-etl-action@v1-beta
-      - run: find ${{ github.workspace}}/.paradicms
       - uses: paradicms/ssg-action@v1-beta
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
