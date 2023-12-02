@@ -20,6 +20,8 @@ jobs:
         - ${{ github.workspace }}:${{ github.workspace }}
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/configure-pages@v3
+        id: configure_pages
       - run: |
           python -m paradicms_etl.pipelines.costume_core_ontology_airtable_to_paradicms_rdf_pipeline \
             --airtable-access-token ${{ secrets.AIRTABLE_ACCESS_TOKEN }} \
