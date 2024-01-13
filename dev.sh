@@ -10,6 +10,7 @@ DATA_DIR_PATH=$THIS_DIR_PATH/.paradicms/data
 PROJECTS_DIR_PATH=$PWD/..
 
 cd $PROJECTS_DIR_PATH/paradicms/lib/py/ssg
+export PYTHONPATH=$PROJECTS_DIR_PATH/paradicms/lib/py/etl:$PROJECTS_DIR_PATH/paradicms/lib/py/ssg
 
 poetry run python $PROJECTS_DIR_PATH/paradicms/lib/py/etl/paradicms_etl/pipelines/costume_core_ontology_airtable_to_paradicms_rdf_pipeline.py \
   --cache-dir-path $CACHE_DIR_PATH \
